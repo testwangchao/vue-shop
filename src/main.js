@@ -3,13 +3,31 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import '../static/css/global.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import axios from 'axios'
+// 导入三方图标
+import './assets/icon/iconfont.css'
 
-Vue.config.productionTip = false
+axios.defaults.baseURL = "http://timemeetyou.com:8889/api/private/v1/";
+
+axios.interceptors.request.use(config => {
+  // console.log(config);
+  config.headers.Authorization = window.sessionStorage.getItem('token');
+  // 必须return config
+  return config
+});
+
+Vue.prototype.$http = axios;
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+Vue.prototype.$message = ElementUI.Message;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
-})
+});
