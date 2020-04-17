@@ -5,6 +5,7 @@ import Dashboard from "../components/Dashboard";
 import Home from "../components/Home";
 import Welcome from "../components/Welcome";
 import Users from "../components/user/Users";
+
 Vue.use(Router);
 
 export default new Router({
@@ -12,7 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/home'
     },
     {
       name: 'Login',
@@ -29,10 +30,19 @@ export default new Router({
           name: "Welcome",
           path: '/welcome',
           component: Welcome
-        },{
-        name: "Users",
+        }, {
+          name: "Users",
           path: '/users',
           component: Users
+        }, {
+          name: "Rights",
+          path: '/rights',
+          component: ()=>import('../components/power/Rights')
+        }, {
+          name: "Roles",
+          path: '/roles',
+          component: ()=>import('../components/power/Roles')
+
         }
       ]
     },

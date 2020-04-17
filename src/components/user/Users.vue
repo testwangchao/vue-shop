@@ -22,12 +22,12 @@
       <!--用户列表区域-->
       <el-table
         :data="userList" border stripe>
-        <el-table-column type="index"></el-table-column>
-        <el-table-column prop="username" label="姓名"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="mobile" label="手机号"></el-table-column>
-        <el-table-column prop="role_name" label="角色"></el-table-column>
-        <el-table-column label="状态">
+        <el-table-column type="index" align="center"></el-table-column>
+        <el-table-column prop="username" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+        <el-table-column prop="mobile" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="role_name" label="角色" align="center"></el-table-column>
+        <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <!--scope.row拿到当前行的数据-->
             <!--{{scope.row}}-->
@@ -38,7 +38,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <!--修改-->
             <el-tooltip class="item" effect="dark" content="编辑" placement="top" :enterable="false">
@@ -53,7 +53,8 @@
             </el-tooltip>
             <!--分配角色-->
             <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini" circle></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" circle
+                         @click="setRoleDialog(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -124,6 +125,32 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="deleteDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="deleteUser">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!--分配角色的对话框-->
+      <el-dialog
+        title="分配橘色"
+        :visible.sync="setRoleDialogVisible"
+        width="50%">
+        <div>
+          <p>当前的用户：{{userInfo.username}}</p>
+          <p>当前的用户：{{userInfo.role_name}}</p>
+          <p>分配新角色：
+            <template>
+              <el-select v-model="role" placeholder="请选择">
+                <el-option
+                  v-for="item in rolesList"
+                  :key="item.id"
+                  :label="item.roleName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </template>
+          </p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="setRole">确 定</el-button>
   </span>
       </el-dialog>
     </el-card>
@@ -153,6 +180,7 @@
       };
 
       return {
+        role: '',
         // 获取用户列表的参数对象
         queryInfo: {
           query: '',
@@ -169,6 +197,12 @@
         editDialogVisible: false,
         // 控制删除用户对话框的显示与隐藏
         deleteDialogVisible: false,
+        // 控制分配角色用户对话框的显示与隐藏
+        setRoleDialogVisible: false,
+        // 需要被分配角色的用户信息
+        userInfo: '',
+        //所有角色的数据列表
+        rolesList: '',
         // 添加用户的表单数据
         addForm: {
           username: '',
@@ -338,6 +372,23 @@
         console.log("删除用户成功");
         this.deleteDialogVisible = false
         // const {data: res} = await this.$http.get()
+      },
+      // 展示分配角色的对话框
+      async setRoleDialog(userInfo) {
+        this.userInfo = userInfo;
+        await this.$http.get('roles').then(
+          ({data: res}) => {
+            if (res.meta.status !== 200) {
+              return this.$message.error('获取角色列表失败')
+            }
+            this.rolesList = res.data
+          }
+        );
+        this.setRoleDialogVisible = true;
+      },
+      // 点击分配权限对话框确认按钮
+      setRole(){
+        console.log(this.role)
       }
     }
   }
