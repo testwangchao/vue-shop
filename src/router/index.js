@@ -37,12 +37,16 @@ export default new Router({
         }, {
           name: "Rights",
           path: '/rights',
-          component: ()=>import('../components/power/Rights')
+          component: () => import('../components/power/Rights')
         }, {
           name: "Roles",
           path: '/roles',
-          component: ()=>import('../components/power/Roles')
-
+          component: () => import('../components/power/Roles')
+        },
+        {
+          name: 'Categories',
+          path: '/categories',
+          component: () => import('../components/goods/Cate')
         }
       ]
     },

@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 // 导入三方图标
 import './assets/icon/iconfont.css'
-
+import TreeTable from 'vue-table-with-tree-grid'
 axios.defaults.baseURL = "http://timemeetyou.com:8889/api/private/v1/";
 
 axios.interceptors.request.use(config => {
@@ -23,7 +23,7 @@ Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.$message = ElementUI.Message;
-
+Vue.component('tree-table', TreeTable);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
