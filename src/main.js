@@ -10,7 +10,7 @@ import axios from 'axios'
 // 导入三方图标
 import './assets/icon/iconfont.css'
 import TreeTable from 'vue-table-with-tree-grid'
-axios.defaults.baseURL = "http://timemeetyou.com:8889/api/private/v1/";
+axios.defaults.baseURL = "http://127.0.01:8888/api/private/v1/";
 
 axios.interceptors.request.use(config => {
   // console.log(config);
