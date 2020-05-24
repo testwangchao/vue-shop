@@ -47,7 +47,13 @@ export default new Router({
           name: 'Categories',
           path: '/categories',
           component: () => import('../components/goods/Cate')
+        },
+        {
+          name: 'Params',
+          path: '/params',
+          component: ()=>import('../components/goods/Params')
         }
+
       ]
     },
     {
